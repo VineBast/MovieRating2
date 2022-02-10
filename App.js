@@ -6,16 +6,6 @@ import { Rating } from 'react-native-ratings';
 import { useState } from "react";
 import { StatusBar } from 'expo-status-bar';
 
-const OpenSettingsButton = ({ children }) => {
-  const handlePress = useCallback(async () => {
-    // Open the custom settings if the app has one
-    await Linking.openSettings();
-  }, []);
-
-  return <Button title={children} onPress={handlePress} />;
-};
-
-
 const App = () => {
   const [titleInput, onChangeTitle] = useState("");
   const [commentsInput, onChangeComments] = useState("");
@@ -122,8 +112,7 @@ const App = () => {
               />
               <Text style={styles.title}>IMDb :</Text>
               <Text style={styles.padding_3}>{item.IMDb}</Text>
-              {/*               <OpenURLButton url={item.IMDb}>IMDb</OpenURLButton>
- */}            </Card>
+           </Card>
 
           )}
         />
