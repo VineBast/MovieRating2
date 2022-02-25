@@ -1,13 +1,135 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Login from "./components/Login";
+import HomeScreen from "./components/HomeScreen";
+import MoviesList from './components/MoviesList';
 import { Button, FlatList, StyleSheet, Text, TextInput, View, Linking } from 'react-native';
 import { Card } from 'react-native-elements';
 import { Rating } from 'react-native-ratings';
 import { useState } from "react";
 import { StatusBar } from 'expo-status-bar';
+/*
+const MovieList = ({title}) => {
+  return (
+    <View>
+      <Text>{title}</Text>
+    </View>
+  )
+}
+
+const HomeScreen = ({ navigation }) => {
+  const [titleInput, onChangeTitle] = useState("");
+  const [commentsInput, onChangeComments] = useState("");
+  const [synopsisInput, onChangesynopsis] = useState("");
+  const [linkInput, onChangeLink] = useState("");
+  const [rateInput, onChangeRate] = useState("");
+
+  return (
+    <View style={styles.container}>
+      <TextInput 
+      onChangeText={onChangeTitle} 
+      value={titleInput}
+      placeholder="Titre du film">
+      </TextInput>
+
+      <TextInput 
+      onChangeText={onChangeComments} 
+      value={commentsInput}
+      placeholder="Tes commentaires">
+      </TextInput>
+
+      <TextInput 
+      onChangeText={onChangeLink} 
+      value={linkInput}
+      placeholder="Lien IMDB">
+      </TextInput>
+
+      <TextInput 
+      onChangeText={onChangesynopsis} 
+      value={synopsisInput}
+      placeholder="Le resumé du film">
+      </TextInput>
+
+      <TextInput 
+      onChangeText={onChangeRate} 
+      value={rateInput}
+      placeholder="Note /5 (ex entre : 3)">
+      </TextInput>
+      
+      <Button title='Go to movies'onPress={() => {
+          navigation.navigate('Movies');
+        }}
+      >
+        Settings
+      </Button>
+    </View>
+  );
+};
+
+const Movies = ({ navigation }) => {
+  return (
+    <View style={styles.container}>
+      <Text style={{ fontSize: 32 }}>Movies</Text>
+      <Button
+        title='Go to home'
+        onPress={() => {
+          navigation.navigate('MovieRatings');
+        }}
+      >
+        Home
+      </Button>
+    </View>
+  );
+};
+
+const Stack = createNativeStackNavigator();
 
 const App = () => {
-  const [titleInput, onChangeTitle] = useState("");
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='MovieRatings'>
+        <Stack.Screen name='MovieRatings' component={HomeScreen} />
+        <Stack.Screen name='Movies' component={Movies} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
+export default App; */
+
+const Stack = createNativeStackNavigator();
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='Login'>
+        <Stack.Screen
+          name='Login'
+          component={Login}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Movies"
+          component={MoviesList}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+
+  /* const [titleInput, onChangeTitle] = useState("");
   const [commentsInput, onChangeComments] = useState("");
   const [synopsisInput, onChangesynopsis] = useState("");
   const [linkInput, onChangeLink] = useState("");
@@ -102,16 +224,10 @@ const App = () => {
               <Text style={styles.title}>Note :</Text>
               <Rating
                 style={styles.padding_3}
-                type='custom'
-                readonly
-                startingValue={item.rate}
-                imageSize={25}
-                ratingCount={10}
                 size={10}
                 ratingColor='#FFE656'
               />
               <Text style={[styles.title, styles.colorBlue]} onPress={() => Linking.openURL(item.IMDb)}>IMDb</Text>
-
            </Card>
 
           )}
@@ -120,7 +236,7 @@ const App = () => {
         <StatusBar syle='auto' />
       </View>
     );
-  }
+  } */
 }
 
 const styles = StyleSheet.create({
@@ -160,8 +276,8 @@ const styles = StyleSheet.create({
   grey: {
     color: 'grey'
   },
-  colorBlue : {
-    color : 'blue'
+  colorBlue: {
+    color: 'blue'
   }
 });
 
