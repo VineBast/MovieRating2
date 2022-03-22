@@ -5,9 +5,6 @@ import { Button, FlatList, StyleSheet, Text, TextInput, View, Linking } from 're
 const Login = ({ navigation }) => {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
-    const test = () => {
-        console.log("test ok");
-    }
 
     const doLogin = () => {
         if ((login == "Login") && (password == "Password")) {

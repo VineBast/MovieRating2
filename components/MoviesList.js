@@ -1,7 +1,7 @@
 import { NavigationContainer, useRoute } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button, FlatList, StyleSheet, Text, TextInput, View, Linking } from 'react-native';
-import { Card } from 'react-native-elements';
+import { ButtonGroup, Card } from 'react-native-elements';
 import { Rating } from 'react-native-ratings';
 import { useState } from "react";
 import { StatusBar } from 'expo-status-bar';
@@ -9,8 +9,16 @@ import { StatusBar } from 'expo-status-bar';
 const MoviesList = () => {
     const route = useRoute();
     const moviesList = route.params;
+    const [selectedIndex, setSelectedIndex] = useState(0);
     return (
         <View style={styles.card}>
+            <ButtonGroup
+                buttons={['Date', 'Name', 'Rate']}
+                selectedIndex={selectedIndex}
+                onPress={(value) => {
+                    setSelectedIndex(value);
+                }}
+            />
             <FlatList
                 data={moviesList}
                 keyExtractor={(item) => item.id}
