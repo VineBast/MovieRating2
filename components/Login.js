@@ -12,7 +12,7 @@ const Login = ({ navigation }) => {
         }
         else {
             console.log("else doLogin");
-            alert("Wrong login or password");
+            alert("Mauvais mot de passe");
         }
     }
 

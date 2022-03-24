@@ -3,24 +3,61 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button, FlatList, StyleSheet, Text, TextInput, View, Linking } from 'react-native';
 import { ButtonGroup, Card } from 'react-native-elements';
 import { Rating } from 'react-native-ratings';
-import { useState } from "react";
+import { useEffect, useState, useLayoutEffect } from "react";
 import { StatusBar } from 'expo-status-bar';
 
 const MoviesList = () => {
     const route = useRoute();
     const moviesList = route.params;
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const [selectedIndexSort, setSelectedIndexSort] = useState(0);
+
+    useEffect(() => {
+        console.log('UseEffect');
+        
+        console.log(selectedIndex);
+        console.log(selectedIndexSort);
+        if (selectedIndex == 0 && selectedIndexSort == 0) {
+            moviesList.sort((a, b) => b.title.localeCompare(a.title))
+        }
+        if (selectedIndex == 0 && selectedIndexSort == 1) {
+            moviesList.sort((a, b) => a.title.localeCompare(b.title));
+        }
+        if (selectedIndex == 1 && selectedIndexSort == 0) {
+            moviesList.sort((a, b) => b.date - a.date);
+        }
+        if (selectedIndex == 1 && selectedIndexSort == 1) {
+            moviesList.sort((a, b) => a.date - b.date);
+        }
+        if (selectedIndex == 2 && selectedIndexSort == 0) {
+            moviesList.sort((a, b) => b.rate - a.rate);
+        }
+        if (selectedIndex == 2 && selectedIndexSort == 1) {
+            moviesList.sort((a, b) => a.rate - b.rate);
+        }        
+    }, [selectedIndex, selectedIndexSort]);
+
     return (
         <View style={styles.card}>
             <ButtonGroup
-                buttons={['Date', 'Name', 'Rate']}
+                buttons={['Titre', 'Date de sortie', 'Note']}
                 selectedIndex={selectedIndex}
                 onPress={(value) => {
+                    setSelectedIndex(0);
                     setSelectedIndex(value);
+                }}
+            />
+            <ButtonGroup
+                buttons={['Croissant', 'Décroissant']}
+                selectedIndex={selectedIndexSort}
+                onPress={(valueSort) => {
+                    setSelectedIndexSort(0)
+                    setSelectedIndexSort(valueSort);
                 }}
             />
             <FlatList
                 data={moviesList}
+                extraData={moviesList}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                     <Card>
@@ -28,6 +65,8 @@ const MoviesList = () => {
                         <Card.Divider />
                         <Card.Image source={item.imageLink} />
                         <Card.Divider />
+                        <Text style={styles.title}>Date de sortie : </Text>
+                        <Text style={[styles.padding_3, styles.comment, styles.grey]}>{item.date}</Text>
                         <Text style={styles.title}>Synopsis : </Text>
                         <Text style={[styles.padding_3, styles.grey]}>{item.synopsis} </Text>
                         <Text style={styles.title}>Commentaires :</Text>
@@ -45,7 +84,6 @@ const MoviesList = () => {
                         />
                         <Text style={[styles.title, styles.colorBlue]} onPress={() => Linking.openURL(item.IMDb)}>IMDb</Text>
                     </Card>
-
                 )}
             />
             <StatusBar syle='auto' />

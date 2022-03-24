@@ -7,8 +7,8 @@ import { useState } from "react";
 import { StatusBar } from 'expo-status-bar';
 
 const HomeScreen = ({ navigation }) => {
-    const [movie, setMovie] = useState([]);
     const [titleInput, onChangeTitle] = useState("");
+    const [dateInput, onChangeDate] = useState("");
     const [commentsInput, onChangeComments] = useState("");
     const [synopsisInput, onChangeSynopsis] = useState("");
     const [linkInput, onChangeLink] = useState("");
@@ -16,10 +16,20 @@ const HomeScreen = ({ navigation }) => {
     const [moviesList, setMoviesList] = useState([{
         id: 0,
         title: 'Only God Forgives',
+        date: 2013,
         comments: 'Parfaite réalisation de Nicolas Winding Refn !',
         IMDb: 'https://www.imdb.com/title/tt1602613/?ref_=nv_sr_srsg_0',
         synopsis: "Julian est un trafiquant de drogue vivant dans le monde criminel de Bangkok qui voit sa vie se compliquer lorsque sa mère l'oblige à rechercher et à tuer l'assassin de son frère.",
         rate: 10,
+        imageLink: require('../img/only.jpeg')
+    }, {
+        id: 1,
+        title: 'A God Forgives',
+        date: 2000,
+        comments: 'Parfaite réalisation de Nicolas Winding Refn !',
+        IMDb: 'https://www.imdb.com/title/tt1602613/?ref_=nv_sr_srsg_0',
+        synopsis: "Julian est un trafiquant de drogue vivant dans le monde criminel de Bangkok qui voit sa vie se compliquer lorsque sa mère l'oblige à rechercher et à tuer l'assassin de son frère.",
+        rate: 9,
         imageLink: require('../img/only.jpeg')
     }]);
 
@@ -28,12 +38,14 @@ const HomeScreen = ({ navigation }) => {
         setMoviesList([...moviesList, {
             id: id,
             title: titleInput,
+            date: dateInput,
             comments: commentsInput,
             IMDb: linkInput,
             synopsis: synopsisInput,
             rate: rateInput
         }]);
         onChangeTitle('');
+        onChangeDate('');
         onChangeRate('');
         onChangeComments('');
         onChangeLink('');
@@ -51,10 +63,18 @@ const HomeScreen = ({ navigation }) => {
 
             <TextInput
                 style={styles.input}
+                onChangeText={onChangeDate}
+                value={dateInput}
+                keyboardType="numeric"
+                placeholder="Année de sortie">
+            </TextInput>
+
+            <TextInput
+                style={styles.input}
                 onChangeText={onChangeRate}
                 value={rateInput}
                 keyboardType="numeric"
-                placeholder="Note / 10 (ex: 3)">
+                placeholder="Note / 10">
             </TextInput>
 
             <TextInput
