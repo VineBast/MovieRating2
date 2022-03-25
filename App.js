@@ -18,13 +18,13 @@ const App = () => {
         <Stack.Screen
           name='Login'
           component={Login}
-          options={{ headerShown: false }}
+          /* options={{ headerShown: false }} */
         />
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ headerShown: false }}
-        />
+/*           options={{ headerShown: false }}
+ */        />
         <Stack.Screen
           name="Movies"
           component={MoviesList}

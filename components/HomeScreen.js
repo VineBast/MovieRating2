@@ -9,16 +9,16 @@ import { StatusBar } from 'expo-status-bar';
 const HomeScreen = ({ navigation }) => {
     const [titleInput, onChangeTitle] = useState("");
     const [dateInput, onChangeDate] = useState("");
-    const [commentsInput, onChangeComments] = useState("");
-    const [synopsisInput, onChangeSynopsis] = useState("");
+/*     const [commentsInput, onChangeComments] = useState("");
+ */    const [synopsisInput, onChangeSynopsis] = useState("");
     const [linkInput, onChangeLink] = useState("");
     const [rateInput, onChangeRate] = useState(null);
     const [moviesList, setMoviesList] = useState([{
         id: 0,
         title: 'Only God Forgives',
         date: 2013,
-        comments: 'Parfaite réalisation de Nicolas Winding Refn !',
-        IMDb: 'https://www.imdb.com/title/tt1602613/?ref_=nv_sr_srsg_0',
+/*         comments: 'Parfaite réalisation de Nicolas Winding Refn !',
+ */        IMDb: 'https://www.imdb.com/title/tt1602613/?ref_=nv_sr_srsg_0',
         synopsis: "Julian est un trafiquant de drogue vivant dans le monde criminel de Bangkok qui voit sa vie se compliquer lorsque sa mère l'oblige à rechercher et à tuer l'assassin de son frère.",
         rate: 10,
         imageLink: require('../img/only.jpeg')
@@ -26,8 +26,8 @@ const HomeScreen = ({ navigation }) => {
         id: 1,
         title: 'A God Forgives',
         date: 2000,
-        comments: 'Parfaite réalisation de Nicolas Winding Refn !',
-        IMDb: 'https://www.imdb.com/title/tt1602613/?ref_=nv_sr_srsg_0',
+/*         comments: 'Parfaite réalisation de Nicolas Winding Refn !',
+ */        IMDb: 'https://www.imdb.com/title/tt1602613/?ref_=nv_sr_srsg_0',
         synopsis: "Julian est un trafiquant de drogue vivant dans le monde criminel de Bangkok qui voit sa vie se compliquer lorsque sa mère l'oblige à rechercher et à tuer l'assassin de son frère.",
         rate: 9,
         imageLink: require('../img/only.jpeg')
@@ -39,8 +39,8 @@ const HomeScreen = ({ navigation }) => {
             id: id,
             title: titleInput,
             date: dateInput,
-            comments: commentsInput,
-            IMDb: linkInput,
+/*             comments: commentsInput,
+ */            IMDb: linkInput,
             synopsis: synopsisInput,
             rate: rateInput
         }]);
@@ -84,12 +84,12 @@ const HomeScreen = ({ navigation }) => {
                 placeholder="Synopsis">
             </TextInput>
 
-            <TextInput
+           {/*  <TextInput
                 style={styles.input}
                 onChangeText={onChangeComments}
                 value={commentsInput}
                 placeholder="Commentaires">
-            </TextInput>
+            </TextInput> */}
 
             <TextInput
                 style={styles.input}

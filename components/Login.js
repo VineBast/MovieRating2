@@ -5,9 +5,11 @@ import { Button, FlatList, StyleSheet, Text, TextInput, View, Linking } from 're
 const Login = ({ navigation }) => {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
+    const [isLogged, setIsLogged] = useState(false);
 
     const doLogin = () => {
         if ((login == "Login") && (password == "Password")) {
+            
             navigation.navigate("Home");
         }
         else {

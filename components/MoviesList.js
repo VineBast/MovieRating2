@@ -43,15 +43,13 @@ const MoviesList = () => {
                 buttons={['Titre', 'Date de sortie', 'Note']}
                 selectedIndex={selectedIndex}
                 onPress={(value) => {
-                    setSelectedIndex(0);
                     setSelectedIndex(value);
                 }}
             />
             <ButtonGroup
                 buttons={['Croissant', 'Décroissant']}
-                selectedIndex={selectedIndexSort}
+                selectedIndexSort={selectedIndexSort}
                 onPress={(valueSort) => {
-                    setSelectedIndexSort(0)
                     setSelectedIndexSort(valueSort);
                 }}
             />
@@ -69,8 +67,8 @@ const MoviesList = () => {
                         <Text style={[styles.padding_3, styles.comment, styles.grey]}>{item.date}</Text>
                         <Text style={styles.title}>Synopsis : </Text>
                         <Text style={[styles.padding_3, styles.grey]}>{item.synopsis} </Text>
-                        <Text style={styles.title}>Commentaires :</Text>
-                        <Text style={[styles.padding_3, styles.comment, styles.grey]}>{item.comments}</Text>
+                        {/* <Text style={styles.title}>Commentaires :</Text>
+                        <Text style={[styles.padding_3, styles.comment, styles.grey]}>{item.comments}</Text> */}
                         <Text style={styles.title}>Note :</Text>
                         <Rating
                             style={styles.padding_3}
