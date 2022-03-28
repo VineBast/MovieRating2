@@ -16,17 +16,15 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Login'>
         <Stack.Screen
-          name='Login'
+          name='Profil'
           component={Login}
-          /* options={{ headerShown: false }} */
         />
         <Stack.Screen
-          name="Home"
+          name="Ajouter"
           component={HomeScreen}
-/*           options={{ headerShown: false }}
- */        />
+        />
         <Stack.Screen
-          name="Movies"
+          name="Films"
           component={MoviesList}
         />
       </Stack.Navigator>

@@ -9,15 +9,30 @@ const Login = ({ navigation }) => {
 
     const doLogin = () => {
         if ((login == "Login") && (password == "Password")) {
-            
-            navigation.navigate("Home");
+            setIsLogged(true);
+            navigation.navigate("Ajouter");
         }
         else {
             console.log("else doLogin");
             alert("Mauvais mot de passe");
         }
     }
+    const logout = () => {
+        setIsLogged(false);
+    }
 
+    if (isLogged == true) {
+        return (
+            <View style={styles.container}>
+                <View style={styles.button}>
+                    <Button color='#5F6790' title="Ajouter des films" onPress={() => navigation.navigate("Ajouter")} />
+                </View>
+                <View style={styles.button}>
+                    <Button color='#F52F2F' title="Se déconnecter" onPress={() => logout()} />
+                </View>
+            </View>
+        );
+    }
     return (
         <View style={styles.container}>
             <TextInput
@@ -34,7 +49,7 @@ const Login = ({ navigation }) => {
                 secureTextEntry={true}
             />
             <View style={styles.button}>
-                <Button color='#5F6790' title="Login" onPress={() => doLogin()} />
+                <Button color='#5F6790' title="Se connecter" onPress={() => doLogin()} />
             </View>
         </View>
     );

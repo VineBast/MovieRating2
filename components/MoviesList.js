@@ -6,17 +6,13 @@ import { Rating } from 'react-native-ratings';
 import { useEffect, useState, useLayoutEffect } from "react";
 import { StatusBar } from 'expo-status-bar';
 
-const MoviesList = () => {
+const MoviesList = (props) => {
     const route = useRoute();
-    const moviesList = route.params;
-    const [selectedIndex, setSelectedIndex] = useState(0);
-    const [selectedIndexSort, setSelectedIndexSort] = useState(0);
+    const [moviesList, setMoviesList] = useState(route.params);
+    const [selectedIndex, setSelectedIndex] = useState(null);
+    const [selectedIndexSort, setSelectedIndexSort] = useState(null);
 
-    useEffect(() => {
-        console.log('UseEffect');
-        
-        console.log(selectedIndex);
-        console.log(selectedIndexSort);
+    const sortMoviesList = () => {
         if (selectedIndex == 0 && selectedIndexSort == 0) {
             moviesList.sort((a, b) => b.title.localeCompare(a.title))
         }
@@ -34,23 +30,34 @@ const MoviesList = () => {
         }
         if (selectedIndex == 2 && selectedIndexSort == 1) {
             moviesList.sort((a, b) => a.rate - b.rate);
-        }        
+        }
+    }
+
+    useEffect(() => {
+        console.log('UseEffect');        
+        console.log(selectedIndex);
+        console.log(selectedIndexSort);
+                
     }, [selectedIndex, selectedIndexSort]);
 
     return (
         <View style={styles.card}>
             <ButtonGroup
-                buttons={['Titre', 'Date de sortie', 'Note']}
-                selectedIndex={selectedIndex}
-                onPress={(value) => {
-                    setSelectedIndex(value);
-                }}
-            />
-            <ButtonGroup
                 buttons={['Croissant', 'Décroissant']}
                 selectedIndexSort={selectedIndexSort}
                 onPress={(valueSort) => {
+
                     setSelectedIndexSort(valueSort);
+                    sortMoviesList();
+                }}
+            />
+            <ButtonGroup
+                buttons={['Titre', 'Date de sortie', 'Note']}
+                selectedIndex={selectedIndex}
+                onPress={(value) => {
+
+                    setSelectedIndex(value);
+                    sortMoviesList();
                 }}
             />
             <FlatList
@@ -67,8 +74,6 @@ const MoviesList = () => {
                         <Text style={[styles.padding_3, styles.comment, styles.grey]}>{item.date}</Text>
                         <Text style={styles.title}>Synopsis : </Text>
                         <Text style={[styles.padding_3, styles.grey]}>{item.synopsis} </Text>
-                        {/* <Text style={styles.title}>Commentaires :</Text>
-                        <Text style={[styles.padding_3, styles.comment, styles.grey]}>{item.comments}</Text> */}
                         <Text style={styles.title}>Note :</Text>
                         <Rating
                             style={styles.padding_3}

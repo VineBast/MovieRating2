@@ -1,24 +1,26 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button, FlatList, StyleSheet, Text, TextInput, View, Linking } from 'react-native';
-import { Card } from 'react-native-elements';
+import { SearchBar } from 'react-native-elements';
 import { Rating } from 'react-native-ratings';
 import { useState } from "react";
 import { StatusBar } from 'expo-status-bar';
 
 const HomeScreen = ({ navigation }) => {
+    const [shouldShow, setShouldShow] = useState(true);
+    const baseUrl = "https://imdb-api.com/en/API/SearchMovie/k_19o8ngj2/";
+    const [showLocal, setShowLocal] = useState(true);
+    const [showIMDb, setShowIMDb] = useState(false);
     const [titleInput, onChangeTitle] = useState("");
     const [dateInput, onChangeDate] = useState("");
-/*     const [commentsInput, onChangeComments] = useState("");
- */    const [synopsisInput, onChangeSynopsis] = useState("");
+    const [synopsisInput, onChangeSynopsis] = useState("");
     const [linkInput, onChangeLink] = useState("");
     const [rateInput, onChangeRate] = useState(null);
     const [moviesList, setMoviesList] = useState([{
         id: 0,
         title: 'Only God Forgives',
         date: 2013,
-/*         comments: 'Parfaite réalisation de Nicolas Winding Refn !',
- */        IMDb: 'https://www.imdb.com/title/tt1602613/?ref_=nv_sr_srsg_0',
+        IMDb: 'https://www.imdb.com/title/tt1602613/?ref_=nv_sr_srsg_0',
         synopsis: "Julian est un trafiquant de drogue vivant dans le monde criminel de Bangkok qui voit sa vie se compliquer lorsque sa mère l'oblige à rechercher et à tuer l'assassin de son frère.",
         rate: 10,
         imageLink: require('../img/only.jpeg')
@@ -26,8 +28,7 @@ const HomeScreen = ({ navigation }) => {
         id: 1,
         title: 'A God Forgives',
         date: 2000,
-/*         comments: 'Parfaite réalisation de Nicolas Winding Refn !',
- */        IMDb: 'https://www.imdb.com/title/tt1602613/?ref_=nv_sr_srsg_0',
+        IMDb: 'https://www.imdb.com/title/tt1602613/?ref_=nv_sr_srsg_0',
         synopsis: "Julian est un trafiquant de drogue vivant dans le monde criminel de Bangkok qui voit sa vie se compliquer lorsque sa mère l'oblige à rechercher et à tuer l'assassin de son frère.",
         rate: 9,
         imageLink: require('../img/only.jpeg')
@@ -39,35 +40,59 @@ const HomeScreen = ({ navigation }) => {
             id: id,
             title: titleInput,
             date: dateInput,
-/*             comments: commentsInput,
- */            IMDb: linkInput,
+            IMDb: linkInput,
             synopsis: synopsisInput,
             rate: rateInput
         }]);
         onChangeTitle('');
         onChangeDate('');
         onChangeRate('');
-        onChangeComments('');
         onChangeLink('');
         onChangeSynopsis('');
     }
 
+    const show = () => {
+        setShowIMDb(!showIMDb);
+        setShowLocal(!showLocal);
+    }
+
     return (
         <View style={styles.container}>
-            <TextInput
-                style={styles.input}
-                onChangeText={onChangeTitle}
-                value={titleInput}
-                placeholder="Titre du film">
-            </TextInput>
 
-            <TextInput
-                style={styles.input}
-                onChangeText={onChangeDate}
-                value={dateInput}
-                keyboardType="numeric"
-                placeholder="Année de sortie">
-            </TextInput>
+            {showIMDb ? (
+                <><TextInput
+                style={styles.inputIMDb}
+                placeholder="Cherchez le film dans IMDb">
+            </TextInput></>
+            ) : null}
+
+            {showLocal ? (
+                <><TextInput
+                    style={styles.input}
+                    onChangeText={onChangeTitle}
+                    value={titleInput}
+                    placeholder="Titre du film">
+                </TextInput>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={onChangeDate}
+                        value={dateInput}
+                        keyboardType="numeric"
+                        placeholder="Année de sortie">
+                    </TextInput>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={onChangeSynopsis}
+                        value={synopsisInput}
+                        placeholder="Synopsis">
+                    </TextInput>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={onChangeLink}
+                        value={linkInput}
+                        placeholder="Lien IMDb">
+                    </TextInput></>
+            ) : null}
 
             <TextInput
                 style={styles.input}
@@ -77,31 +102,13 @@ const HomeScreen = ({ navigation }) => {
                 placeholder="Note / 10">
             </TextInput>
 
-            <TextInput
-                style={styles.input}
-                onChangeText={onChangeSynopsis}
-                value={synopsisInput}
-                placeholder="Synopsis">
-            </TextInput>
+            <Button color='#f4c418' title='IMDb' onPress={() => show()} />
 
-           {/*  <TextInput
-                style={styles.input}
-                onChangeText={onChangeComments}
-                value={commentsInput}
-                placeholder="Commentaires">
-            </TextInput> */}
-
-            <TextInput
-                style={styles.input}
-                onChangeText={onChangeLink}
-                value={linkInput}
-                placeholder="Lien IMDb">
-            </TextInput>
             <View style={styles.button}>
                 <Button color='#5F6790' title='Ajouter' onPress={addMovie} />
             </View>
             <View style={styles.button}>
-                <Button color='#5F6790' title='Voir les films' onPress={() => navigation.navigate("Movies", moviesList)} />
+                <Button color='#5F6790' title='Voir les films' onPress={() => navigation.navigate("Films", moviesList)} />
             </View>
             <StatusBar syle='auto' />
         </View>
@@ -124,6 +131,14 @@ const styles = StyleSheet.create({
     input: {
         width: '90%',
         borderBottomWidth: 1,
+        margin: 1,
+        fontSize: 20,
+        padding: 5
+    },
+    inputIMDb: {
+        width: '90%',
+        borderBottomWidth: 1,
+        color: "#f4c418",
         margin: 1,
         fontSize: 20,
         padding: 5
