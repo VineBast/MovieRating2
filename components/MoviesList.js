@@ -1,13 +1,14 @@
 import { NavigationContainer, useRoute } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Button, FlatList, StyleSheet, Text, TextInput, View, Linking } from 'react-native';
-import { ButtonGroup, Card } from 'react-native-elements';
+import { FlatList, StyleSheet, Text, TextInput, View, Linking } from 'react-native';
+import { ButtonGroup, Card, SearchBar, Button } from 'react-native-elements';
 import { Rating } from 'react-native-ratings';
 import { useEffect, useState, useLayoutEffect } from "react";
 import { StatusBar } from 'expo-status-bar';
 
-const MoviesList = () => {
+const MoviesList = ({ navigation }) => {
     const route = useRoute();
+    const [search, setSearch] = useState("");
     const [moviesList, setMoviesList] = useState(route.params);
     const [selectedIndex, setSelectedIndex] = useState(null);
     const [selectedIndexSort, setSelectedIndexSort] = useState(null);
@@ -33,8 +34,32 @@ const MoviesList = () => {
         }
     }
 
+    const searchFilter = (text) => {
+        if (text) {
+            const newData = masterData.filter((item) => {
+                const itemData = item.title ? item.title.toUpperCase() : ''.toUpperCase();
+                const textData = text.toUpperCase();
+                return itemData.indexOf(textData) > -1;
+            });
+            setFilterData(newData);
+            setSearch(text);
+        } else {
+            setFilterData(masterData);
+            setSearch(text);
+        }
+    }
+
     return (
         <View style={styles.card}>
+            <SearchBar
+                placeholder="Type Here..."
+                onChangeText={(text) => searchFilter(text)}
+                value={search}
+                round='true'
+                containerStyle={{ backgroundColor: 'white', padding: 5 }}
+                inputContainerStyle={{ backgroundColor: 'white' }}
+                lightTheme='true'
+            ></SearchBar>
             <ButtonGroup
                 buttons={['Croissant', 'Décroissant']}
                 selectedIndexSort={selectedIndexSort}
@@ -59,15 +84,15 @@ const MoviesList = () => {
                     <Card>
                         <Card.Title>{item.title}</Card.Title>
                         <Card.Divider />
-                        <Card.Image source={{uri: item.imageLink}} />
-                        <View style={styles.buttonIMDb}>
-                            <Button title='Voir plus sur IMDb' color='#f4c418' onPress={() => Linking.openURL(item.IMDb)} />
+                        <Card.Image source={{ uri: item.imageLink }} />
+                        <View style={styles.button}>
+                            <Button title="Voir plus"
+                                buttonStyle={styles.buttonStyle}
+                                onPress={() => navigation.navigate("Détails", moviesList[item.id])} />
                         </View>
                         <Card.Divider />
                         <Text style={styles.title}>Date de sortie : </Text>
                         <Text style={[styles.padding_3, styles.comment, styles.grey]}>{item.date}</Text>
-                        <Text style={styles.title}>Synopsis : </Text>
-                        <Text style={[styles.padding_3, styles.grey]}>{item.synopsis} </Text>
                         <Text style={styles.title}>Note :</Text>
                         <Rating
                             style={styles.padding_3}
@@ -93,6 +118,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
 
+    },
+    buttonStyle: {
+        backgroundColor: '#8EDBBE',
+        borderRadius: 5,
     },
     button: {
         padding: 2,

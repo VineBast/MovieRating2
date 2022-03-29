@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { FlatList, StyleSheet, Text, TextInput, View, Linking } from 'react-native';
+import { FlatList, StyleSheet, Text, TextInput, View, Linking, ActivityIndicator } from 'react-native';
 import { SearchBar, ButtonGroup, Button, Input } from 'react-native-elements';
 import { Rating } from 'react-native-ratings';
 import { useState } from "react";
@@ -24,6 +24,7 @@ const createLinkRequest = (movieId) => {
 }
 
 const HomeScreen = ({ navigation }) => {
+    const [isLoading, setIsLoading] = useState(false);
     const [showLocal, setShowLocal] = useState(true);
     const [showIMDb, setShowIMDb] = useState(false);
     const [titleInput, onChangeTitle] = useState("");
@@ -31,6 +32,7 @@ const HomeScreen = ({ navigation }) => {
     const [dateInput, onChangeDate] = useState("");
     const [synopsisInput, onChangeSynopsis] = useState("");
     const [linkInput, onChangeLink] = useState("");
+    const [imageInput, onChangeImageInput] = useState("");
     const [rateInput, onChangeRate] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [moviesList, setMoviesList] = useState([{
@@ -52,11 +54,10 @@ const HomeScreen = ({ navigation }) => {
     }]);
 
     const findMovie = async () => {
+        setIsLoading(true);
         let movieTitle = titleInputIMDb;
-        console.log(movieTitle);
         let res = await fetch(createRequest(movieTitle));
         let movieInfos = await res.json();
-        console.log(movieInfos);
         let resTrailer = await fetch(createOptionRequest(movieInfos.results[0].id));
         let resLink = await fetch(createLinkRequest(movieInfos.results[0].id));
         let link = await resLink.json();
@@ -72,6 +73,7 @@ const HomeScreen = ({ navigation }) => {
     }
 
     const addMovie = () => {
+        setIsLoading(true);
         let id = moviesList.length;
         setMoviesList([...moviesList, {
             id: id,
@@ -79,13 +81,17 @@ const HomeScreen = ({ navigation }) => {
             date: dateInput,
             IMDb: linkInput,
             synopsis: synopsisInput,
-            rate: rateInput
+            rate: rateInput,
+            imageLink: imageInput
         }]);
+        setIsLoading(false);
+        onChangeTitleIMDb('');
         onChangeTitle('');
         onChangeDate('');
         onChangeRate('');
         onChangeLink('');
         onChangeSynopsis('');
+        onChangeImageInput('');
     }
 
     const addMovieIMDb = (movieObj) => {
@@ -99,12 +105,14 @@ const HomeScreen = ({ navigation }) => {
             IMDb: movieObj.IMDb,
             rate: rateInput
         }]);
+        setIsLoading(false);
         onChangeTitleIMDb('');
+        onChangeTitle('');
         onChangeDate('');
         onChangeRate('');
         onChangeLink('');
         onChangeSynopsis('');
-        onChangeLink('');
+        onChangeImageInput('');
     }
 
     const show = () => {
@@ -128,7 +136,7 @@ const HomeScreen = ({ navigation }) => {
                 <Input
                     onChangeText={onChangeTitleIMDb}
                     value={titleInputIMDb}
-                    placeholder="Recherche IMDb">
+                    placeholder="Recherche IMDb (titre + date en option)">
                 </Input>) : null}
 
             {showLocal ? (<Input
@@ -156,6 +164,12 @@ const HomeScreen = ({ navigation }) => {
                 placeholder="Lien IMDb">
             </Input>) : null}
 
+            {showLocal ? (<Input
+                onChangeText={onChangeImageInput}
+                value={imageInput}
+                placeholder="Lien Image">
+            </Input>) : null}
+
             <Input
                 onChangeText={onChangeRate}
                 value={rateInput}
@@ -165,11 +179,10 @@ const HomeScreen = ({ navigation }) => {
             <View style={styles.button}>
                 {showIMDb ? (
                     <Button
-                        buttonStyle={styles.buttonStyleIMDb}
+                        buttonStyle={styles.buttonStyleIMDb} loading={isLoading} 
                         title='Ajouter avec IMDb' onPress={findMovie} />) : null}
                 {showLocal ? (
-                    <Button buttonStyle={styles.buttonStyle} title='Ajouter' onPress={addMovie} />) : null}
-
+                    <Button buttonStyle={styles.buttonStyle} loading={isLoading} title='Ajouter' onPress={addMovie} />) : null}
             </View>
 
             <View style={styles.button}>
@@ -178,12 +191,17 @@ const HomeScreen = ({ navigation }) => {
                     title='Voir les films'
                     onPress={() => navigation.navigate("Films", moviesList)} />
             </View>
+            <View style={styles.button}>
+                <Button
+                    buttonStyle={styles.buttonStyle}
+                    title='Paramètres'
+                    onPress={() => navigation.navigate("Profil")} />
+            </View>
             <StatusBar syle='auto' />
         </View >
 
     );
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -199,9 +217,6 @@ const styles = StyleSheet.create({
     buttonStyle: {
         backgroundColor: '#8EDBBE',
         borderRadius: 5,
-    },
-    buttonStyleGroup: {
-        backgroundColor: '#8EDBBE',
     },
     buttonStyleIMDb: {
         backgroundColor: '#f4c418',

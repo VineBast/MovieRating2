@@ -1,35 +1,92 @@
-import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import { FlatList, StyleSheet, Text, TextInput, View, Linking } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 
 const Login = ({ navigation }) => {
     const [login, setLogin] = useState("");
+    const [loginTemp, onChangeLoginTemp] = useState("");
+    const [passwordTemp, onChangePasswordTemp] = useState("");
+    const [passwordTempNew, onChangePasswordTempNew] = useState("");
     const [password, setPassword] = useState("");
     const [isLogged, setIsLogged] = useState(false);
 
     const doLogin = () => {
         if ((login == "Login") && (password == "Password")) {
             setIsLogged(true);
-            navigation.navigate("Ajouter");
+            navigation.navigate("Accueil");
         }
         else {
             console.log("else doLogin");
-            alert("Mauvais mot de passe");
+            alert("Erreur de mot de passe");
         }
     }
     const logout = () => {
         setIsLogged(false);
     }
 
-    if (isLogged == true) {
+    const changeLogin = () => {
+        setLogin(loginTemp);
+        onChangeLoginTemp('');
+    }
+
+    const changePassword = () => {
+        if (passwordTemp == password) {
+
+            setPassword(passwordTempNew);
+        } else {
+            alert('Erreur de mot de passe');
+        }
+    }
+
+    if (isLogged) {
         return (
-            <View style={styles.container}>
+            <View>
+                <Text>{login}</Text>
+                <Input
+                    value={loginTemp}
+                    onChangeText={onChangeLoginTemp}
+                    placeholder="Entrez votre nouveau login"
+                />
                 <View style={styles.button}>
-                    <Button buttonStyle={styles.buttonStyle} title="Ajouter des films" onPress={() => navigation.navigate("Ajouter")} />
+                    <Button
+                        title="Changer login"
+                        type='outline'
+                        onPress={changeLogin} />
+                </View>
+                <Text>Mot de passe</Text>
+                <Input
+                    value={passwordTempNew}
+                    onChangeText={onChangePasswordTempNew}
+                    placeholder="Entrez votre nouveau mot de passe"
+                    secureTextEntry={true}
+                    type='outline'
+                    leftIcon={{ type: 'font-awesome', name: 'lock' }}
+                />
+                <Input
+                    value={passwordTemp}
+                    onChangeText={onChangePasswordTemp}
+                    placeholder="Entrez votre ancien mot de passe"
+                    secureTextEntry={true}
+                    type='outline'
+                    leftIcon={{ type: 'font-awesome', name: 'lock' }}
+                />
+                <View style={styles.button}>
+                    <Button
+                        title="Changer mot de passe"
+                        type='outline'
+                        onPress={changePassword} />
                 </View>
                 <View style={styles.button}>
-                    <Button buttonStyle={styles.buttonStyleOff} title="Se déconnecter" onPress={() => logout()} />
+                    <Button
+                        buttonStyle={styles.buttonStyleOff}
+                        title="Se déconnecter"
+                        onPress={() => logout()} />
+                </View>
+                <View style={styles.button}>
+                    <Button
+                        buttonStyle={styles.buttonStyle}
+                        title="Voir les films"
+                        onPress={() => navigation.navigate("Accueil")} />
                 </View>
             </View>
         );
@@ -50,8 +107,8 @@ const Login = ({ navigation }) => {
                 leftIcon={{ type: 'font-awesome', name: 'lock' }}
             />
             <View style={styles.button}>
-                <Button buttonStyle={styles.buttonStyle} 
-                title="Se connecter" onPress={() => doLogin()} />
+                <Button buttonStyle={styles.buttonStyle}
+                    title="Se connecter" onPress={() => doLogin()} />
             </View>
         </View>
     );
@@ -67,7 +124,7 @@ const styles = StyleSheet.create({
     },
     button: {
         padding: 2,
-        width: '40 %',
+        width: '90 %',
     },
     buttonStyle: {
         backgroundColor: '#8EDBBE',
