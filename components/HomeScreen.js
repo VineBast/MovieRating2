@@ -13,14 +13,14 @@ const ApiKey = () => {
 }
 
 const createRequest = (movieTitle) => {
-    return ("https://imdb-api.com/fr/API/SearchMovie/"+ApiKey()+"/" + movieTitle);
+    return ("https://imdb-api.com/fr/API/SearchMovie/" + ApiKey() + "/" + movieTitle);
 }
 const createOptionRequest = (movieId) => {
-    return ("https://imdb-api.com/fr/API/Title/"+ApiKey()+"/" + movieId);
+    return ("https://imdb-api.com/fr/API/Title/" + ApiKey() + "/" + movieId);
 }
 
 const createLinkRequest = (movieId) => {
-    return ("https://imdb-api.com/en/API/ExternalSites/"+ApiKey()+"/" + movieId);
+    return ("https://imdb-api.com/en/API/ExternalSites/" + ApiKey() + "/" + movieId);
 }
 
 const HomeScreen = ({ navigation }) => {
@@ -61,7 +61,6 @@ const HomeScreen = ({ navigation }) => {
         let resLink = await fetch(createLinkRequest(movieInfos.results[0].id));
         let link = await resLink.json();
         let trailerInfo = await resTrailer.json();
-        console.log(movieInfos.results[0].title);
         let movieObj = {
             title: movieInfos.results[0].title,
             synopsis: trailerInfo.plotLocal,
@@ -69,7 +68,6 @@ const HomeScreen = ({ navigation }) => {
             date: link.year,
             IMDb: link.imDb.url
         };
-        console.log(movieInfos.results[0].image);
         addMovieIMDb(movieObj);
     }
 
@@ -115,7 +113,7 @@ const HomeScreen = ({ navigation }) => {
     }
 
     return (
-        <View>
+        <View style={styles.container}>
             <ButtonGroup
                 buttons={['Local', 'IMDb']}
                 selectedIndex={selectedIndex}
@@ -126,61 +124,63 @@ const HomeScreen = ({ navigation }) => {
                     }
                 }}
             />
-            <View style={styles.container}>
-                {showIMDb ? (
-                    <><Input
-                        onChangeText={onChangeTitleIMDb}
-                        value={titleInputIMDb}
-                        placeholder="Recherche IMDb">
-                    </Input></>
-                ) : null}
-                {showLocal ? (
-                    <><Input
-                        onChangeText={onChangeTitle}
-                        value={titleInput}
-                        placeholder="Titre du film">
-                    </Input>
-                        <Input
-                            onChangeText={onChangeDate}
-                            value={dateInput}
-                            keyboardType="numeric"
-                            placeholder="Année de sortie">
-                        </Input>
-                        <Input
-                            onChangeText={onChangeSynopsis}
-                            value={synopsisInput}
-                            placeholder="Synopsis">
-                        </Input>
-                        <Input
-                            onChangeText={onChangeLink}
-                            value={linkInput}
-                            placeholder="Lien IMDb">
-                        </Input></>
-                ) : null}
+            {showIMDb ? (
                 <Input
-                    onChangeText={onChangeRate}
-                    value={rateInput}
-                    keyboardType="numeric"
-                    placeholder="Note / 10">
-                </Input>
-                <View style={styles.button}>
-                    {showIMDb ? (
-                        <Button
-                            buttonStyle={styles.buttonStyleIMDb}
-                            title='Ajouter avec IMDb' onPress={findMovie} />) : null}
-                    {showLocal ? (
-                        <Button buttonStyle={styles.buttonStyle} title='Ajouter' onPress={addMovie} />) : null}
+                    onChangeText={onChangeTitleIMDb}
+                    value={titleInputIMDb}
+                    placeholder="Recherche IMDb">
+                </Input>) : null}
 
-                </View>
-                <View style={styles.button}>
+            {showLocal ? (<Input
+                onChangeText={onChangeTitle}
+                value={titleInput}
+                placeholder="Titre du film">
+            </Input>) : null}
+
+            {showLocal ? (<Input
+                onChangeText={onChangeDate}
+                value={dateInput}
+                keyboardType="numeric"
+                placeholder="Année de sortie">
+            </Input>) : null}
+
+            {showLocal ? (<Input
+                onChangeText={onChangeSynopsis}
+                value={synopsisInput}
+                placeholder="Synopsis">
+            </Input>) : null}
+
+            {showLocal ? (<Input
+                onChangeText={onChangeLink}
+                value={linkInput}
+                placeholder="Lien IMDb">
+            </Input>) : null}
+
+            <Input
+                onChangeText={onChangeRate}
+                value={rateInput}
+                keyboardType="numeric"
+                placeholder="Note / 10">
+            </Input>
+            <View style={styles.button}>
+                {showIMDb ? (
                     <Button
-                        buttonStyle={styles.buttonStyle}
-                        title='Voir les films'
-                        onPress={() => navigation.navigate("Films", moviesList)} />
-                </View>
-                <StatusBar syle='auto' />
+                        buttonStyle={styles.buttonStyleIMDb}
+                        title='Ajouter avec IMDb' onPress={findMovie} />) : null}
+                {showLocal ? (
+                    <Button buttonStyle={styles.buttonStyle} title='Ajouter' onPress={addMovie} />) : null}
+
             </View>
-        </View>
+
+            <View style={styles.button}>
+                <Button
+                    buttonStyle={styles.buttonStyle}
+                    title='Voir les films'
+                    onPress={() => navigation.navigate("Films", moviesList)} />
+            </View>
+            <StatusBar syle='auto' />
+        </View >
+
     );
 }
 
@@ -189,8 +189,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: 'center'
 
     },
     button: {
