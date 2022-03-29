@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import { Button, FlatList, StyleSheet, Text, TextInput, View, Linking } from 'react-native';
+import { FlatList, StyleSheet, Text, TextInput, View, Linking } from 'react-native';
+import { Input, Button } from 'react-native-elements';
 
 const Login = ({ navigation }) => {
     const [login, setLogin] = useState("");
@@ -25,31 +26,32 @@ const Login = ({ navigation }) => {
         return (
             <View style={styles.container}>
                 <View style={styles.button}>
-                    <Button color='#5F6790' title="Ajouter des films" onPress={() => navigation.navigate("Ajouter")} />
+                    <Button buttonStyle={styles.buttonStyle} title="Ajouter des films" onPress={() => navigation.navigate("Ajouter")} />
                 </View>
                 <View style={styles.button}>
-                    <Button color='#F52F2F' title="Se déconnecter" onPress={() => logout()} />
+                    <Button buttonStyle={styles.buttonStyleOff} title="Se déconnecter" onPress={() => logout()} />
                 </View>
             </View>
         );
     }
     return (
         <View style={styles.container}>
-            <TextInput
-                style={styles.input}
+            <Input
                 value={login}
                 onChangeText={setLogin}
                 placeholder="Login"
+                leftIcon={{ type: 'font-awesome', name: 'user' }}
             />
-            <TextInput
-                style={styles.input}
+            <Input
                 value={password}
                 onChangeText={setPassword}
                 placeholder="Password"
                 secureTextEntry={true}
+                leftIcon={{ type: 'font-awesome', name: 'lock' }}
             />
             <View style={styles.button}>
-                <Button color='#5F6790' title="Se connecter" onPress={() => doLogin()} />
+                <Button buttonStyle={styles.buttonStyle} 
+                title="Se connecter" onPress={() => doLogin()} />
             </View>
         </View>
     );
@@ -66,6 +68,14 @@ const styles = StyleSheet.create({
     button: {
         padding: 2,
         width: '40 %',
+    },
+    buttonStyle: {
+        backgroundColor: '#8EDBBE',
+        borderRadius: 5,
+    },
+    buttonStyleOff: {
+        backgroundColor: '#F52F2F',
+        borderRadius: 5,
     },
     input: {
         width: '90%',

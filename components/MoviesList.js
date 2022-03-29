@@ -6,7 +6,7 @@ import { Rating } from 'react-native-ratings';
 import { useEffect, useState, useLayoutEffect } from "react";
 import { StatusBar } from 'expo-status-bar';
 
-const MoviesList = (props) => {
+const MoviesList = () => {
     const route = useRoute();
     const [moviesList, setMoviesList] = useState(route.params);
     const [selectedIndex, setSelectedIndex] = useState(null);
@@ -33,20 +33,12 @@ const MoviesList = (props) => {
         }
     }
 
-    useEffect(() => {
-        console.log('UseEffect');        
-        console.log(selectedIndex);
-        console.log(selectedIndexSort);
-                
-    }, [selectedIndex, selectedIndexSort]);
-
     return (
         <View style={styles.card}>
             <ButtonGroup
                 buttons={['Croissant', 'Décroissant']}
                 selectedIndexSort={selectedIndexSort}
                 onPress={(valueSort) => {
-
                     setSelectedIndexSort(valueSort);
                     sortMoviesList();
                 }}
@@ -55,7 +47,6 @@ const MoviesList = (props) => {
                 buttons={['Titre', 'Date de sortie', 'Note']}
                 selectedIndex={selectedIndex}
                 onPress={(value) => {
-
                     setSelectedIndex(value);
                     sortMoviesList();
                 }}
@@ -68,7 +59,10 @@ const MoviesList = (props) => {
                     <Card>
                         <Card.Title>{item.title}</Card.Title>
                         <Card.Divider />
-                        <Card.Image source={item.imageLink} />
+                        <Card.Image source={{uri: item.imageLink}} />
+                        <View style={styles.buttonIMDb}>
+                            <Button title='Voir plus sur IMDb' color='#f4c418' onPress={() => Linking.openURL(item.IMDb)} />
+                        </View>
                         <Card.Divider />
                         <Text style={styles.title}>Date de sortie : </Text>
                         <Text style={[styles.padding_3, styles.comment, styles.grey]}>{item.date}</Text>
@@ -85,7 +79,6 @@ const MoviesList = (props) => {
                             size={10}
                             ratingColor='#FFE656'
                         />
-                        <Text style={[styles.title, styles.colorBlue]} onPress={() => Linking.openURL(item.IMDb)}>IMDb</Text>
                     </Card>
                 )}
             />
@@ -104,6 +97,10 @@ const styles = StyleSheet.create({
     button: {
         padding: 2,
         width: '40 %',
+    },
+    buttonIMDb: {
+        padding: 2,
+        width: '100%',
     },
     input: {
         width: '90%',
