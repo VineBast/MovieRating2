@@ -1,9 +1,5 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { FlatList, StyleSheet, Text, TextInput, View, Linking, ActivityIndicator } from 'react-native';
-import { SearchBar, ButtonGroup, Button, Input } from 'react-native-elements';
-import { Rating } from 'react-native-ratings';
+import { StyleSheet, View} from 'react-native';
+import { ButtonGroup, Button, Input } from 'react-native-elements';
 import { useState } from "react";
 import { StatusBar } from 'expo-status-bar';
 

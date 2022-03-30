@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Input, Button } from 'react-native-elements';
+import { StyleSheet, View } from 'react-native';
+import { Input, Button, Text } from 'react-native-elements';
 
 const Login = ({ navigation }) => {
     const [login, setLogin] = useState("");
@@ -16,7 +16,6 @@ const Login = ({ navigation }) => {
             navigation.navigate("Accueil");
         }
         else {
-            console.log("else doLogin");
             alert("Erreur de mot de passe");
         }
     }
@@ -40,8 +39,13 @@ const Login = ({ navigation }) => {
 
     if (isLogged) {
         return (
-            <View>
-                <Text>{login}</Text>
+            <View style={styles.container}>
+                <Text
+                style={{padding: 20}}
+                    h1
+                    h1Style={{ color: '#8EDBBE' }}>
+                    Bonjour {login}
+                </Text>
                 <Input
                     value={loginTemp}
                     onChangeText={onChangeLoginTemp}
@@ -53,7 +57,6 @@ const Login = ({ navigation }) => {
                         type='outline'
                         onPress={changeLogin} />
                 </View>
-                <Text>Mot de passe</Text>
                 <Input
                     value={passwordTempNew}
                     onChangeText={onChangePasswordTempNew}
@@ -106,11 +109,12 @@ const Login = ({ navigation }) => {
                 secureTextEntry={true}
                 leftIcon={{ type: 'font-awesome', name: 'lock' }}
             />
-            <View style={styles.button}>
+            <View style={styles.buttonConnect}>
                 <Button buttonStyle={styles.buttonStyle}
                     title="Se connecter" onPress={() => doLogin()} />
             </View>
         </View>
+
     );
 }
 
@@ -124,7 +128,10 @@ const styles = StyleSheet.create({
     },
     button: {
         padding: 2,
-        width: '100 %',
+        width: '100%',
+    },
+    buttonConnect: {
+        padding: 2,
     },
     buttonStyle: {
         backgroundColor: '#8EDBBE',

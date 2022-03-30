@@ -50,7 +50,7 @@ const MoviesList = ({ navigation }) => {
     return (
         <View style={styles.card}>
             <SearchBar
-                placeholder="Type Here..."
+                placeholder="Rechercher une film..."
                 onChangeText={onChangeSearchText}
                 value={searchText}
                 round='true'
