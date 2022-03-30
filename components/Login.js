@@ -85,7 +85,7 @@ const Login = ({ navigation }) => {
                 <View style={styles.button}>
                     <Button
                         buttonStyle={styles.buttonStyle}
-                        title="Voir les films"
+                        title="Accueil"
                         onPress={() => navigation.navigate("Accueil")} />
                 </View>
             </View>
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     },
     button: {
         padding: 2,
-        width: '90 %',
+        width: '100 %',
     },
     buttonStyle: {
         backgroundColor: '#8EDBBE',

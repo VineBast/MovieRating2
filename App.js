@@ -4,11 +4,6 @@ import Login from "./components/Login";
 import HomeScreen from "./components/HomeScreen";
 import MoviesList from './components/MoviesList';
 import Movie from './components/Movie';
-import { Button, FlatList, StyleSheet, Text, TextInput, View, Linking } from 'react-native';
-import { Card } from 'react-native-elements';
-import { Rating } from 'react-native-ratings';
-import { useState } from "react";
-import { StatusBar } from 'expo-status-bar';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,7 +18,7 @@ const App = () => {
         <Stack.Screen
           name="Accueil"
           component={HomeScreen}
-          options={{headerLeft: (props) => null }}
+          options={{headerLeft: null }}
         />
         <Stack.Screen
           name="Films"

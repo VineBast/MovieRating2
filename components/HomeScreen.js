@@ -51,7 +51,32 @@ const HomeScreen = ({ navigation }) => {
         synopsis: "Lorsque le Riddler, un tueur en série maniaque, commence à assassiner des personnalités politiques clés à Gotham, Batman est obligé d'enquêter sur la corruption cachée de la ville et de remettre en question l'implication de sa famille.",
         rate: 9,
         imageLink: 'https://fr.web.img5.acsta.net/pictures/22/02/16/17/42/3125788.jpg'
-    }]);
+    }, {
+        id: 2,
+        title: 'Encanto',
+        date: 2021,
+        IMDb: 'https://www.imdb.com/title/tt2953050/',
+        synopsis: "En Colombie, une jeune femme doit faire face à la frustration d'être la seule de sa famille à ne pas avoir de pouvoirs magiques.",
+        rate: 8,
+        imageLink: 'https://fr.web.img6.acsta.net/pictures/21/09/29/10/15/0378531.jpg'
+    }, {
+        id: 3,
+        title: 'Juste la fin du monde',
+        date: 2016,
+        IMDb: 'https://www.imdb.com/title/tt4645368/?ref_=nv_sr_srsg_0',
+        synopsis: "Louis (Gaspard Ulliel), un écrivain en phase terminale, retourne dans sa famille après une longue absence pour lui annoncer sa mort prochaine.",
+        rate: 10,
+        imageLink: 'https://fr.web.img5.acsta.net/pictures/16/08/19/11/38/081608.jpg'
+    }, {
+        id: 4,
+        title: 'Tenet',
+        date: 2020,
+        IMDb: 'https://www.imdb.com/title/tt6723592/',
+        synopsis: "Un espion est sélectionné pour déjouer un complot menant à une 3ème guerre mondiale. Aidé de mystérieux objets à entropie 'inversée' dont il doit découvrir la provenance, son enquête commence avec pour seul indice un nom de code : 'TENET'.",
+        rate: 5,
+        imageLink: 'https://fr.web.img2.acsta.net/pictures/20/08/03/12/15/2118693.jpg'
+    }
+    ]);
 
     const findMovie = async () => {
         setIsLoading(true);
@@ -179,7 +204,7 @@ const HomeScreen = ({ navigation }) => {
             <View style={styles.button}>
                 {showIMDb ? (
                     <Button
-                        buttonStyle={styles.buttonStyleIMDb} loading={isLoading} 
+                        buttonStyle={styles.buttonStyleIMDb} loading={isLoading}
                         title='Ajouter avec IMDb' onPress={findMovie} />) : null}
                 {showLocal ? (
                     <Button buttonStyle={styles.buttonStyle} loading={isLoading} title='Ajouter' onPress={addMovie} />) : null}
@@ -193,7 +218,6 @@ const HomeScreen = ({ navigation }) => {
             </View>
             <View style={styles.button}>
                 <Button
-                    buttonStyle={styles.buttonStyle}
                     title='Paramètres'
                     onPress={() => navigation.navigate("Profil")} />
             </View>
@@ -212,7 +236,7 @@ const styles = StyleSheet.create({
     },
     button: {
         padding: 2,
-        width: '90%',
+        width: '100%',
     },
     buttonStyle: {
         backgroundColor: '#8EDBBE',
@@ -221,7 +245,6 @@ const styles = StyleSheet.create({
     buttonStyleIMDb: {
         backgroundColor: '#f4c418',
         borderRadius: 5,
-        color: 'black'
     },
     input: {
         width: '90%',

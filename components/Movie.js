@@ -17,7 +17,7 @@ const Movie = ({ }) => {
                 <Card.Image source={{ uri: movie.imageLink }} />
                 <View style={styles.buttonIMDb}>
                     <Button
-                        title='Voir plus sur IMDb'
+                        title='Voir sur IMDb'
                         buttonStyle={styles.buttonStyleIMDb}
                         onPress={() => Linking.openURL(movie.IMDb)} />
                 </View>
@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
     },
     button: {
         padding: 2,
-        width: '40 %',
     },
     buttonIMDb: {
         padding: 2,

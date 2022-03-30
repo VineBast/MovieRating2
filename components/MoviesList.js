@@ -1,15 +1,15 @@
-import { NavigationContainer, useRoute } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { FlatList, StyleSheet, Text, TextInput, View, Linking } from 'react-native';
+import { useRoute } from '@react-navigation/native';
+import { FlatList, StyleSheet, Text, View, } from 'react-native';
 import { ButtonGroup, Card, SearchBar, Button } from 'react-native-elements';
 import { Rating } from 'react-native-ratings';
-import { useEffect, useState, useLayoutEffect } from "react";
+import { useEffect, useState } from "react";
 import { StatusBar } from 'expo-status-bar';
 
 const MoviesList = ({ navigation }) => {
     const route = useRoute();
-    const [search, setSearch] = useState("");
+    const [searchText, onChangeSearchText] = useState("");
     const [moviesList, setMoviesList] = useState(route.params);
+    const [moviesListConst] = useState(moviesList);
     const [selectedIndex, setSelectedIndex] = useState(null);
     const [selectedIndexSort, setSelectedIndexSort] = useState(null);
 
@@ -34,27 +34,25 @@ const MoviesList = ({ navigation }) => {
         }
     }
 
-    const searchFilter = (text) => {
-        if (text) {
-            const newData = masterData.filter((item) => {
+    useEffect(() => {
+        if (searchText) {
+            const newData = moviesList.filter((item) => {
                 const itemData = item.title ? item.title.toUpperCase() : ''.toUpperCase();
-                const textData = text.toUpperCase();
+                const textData = searchText.toUpperCase();
                 return itemData.indexOf(textData) > -1;
             });
-            setFilterData(newData);
-            setSearch(text);
+            setMoviesList(newData);
         } else {
-            setFilterData(masterData);
-            setSearch(text);
+            setMoviesList(moviesListConst);
         }
-    }
+    }, [searchText]);
 
     return (
         <View style={styles.card}>
             <SearchBar
                 placeholder="Type Here..."
-                onChangeText={(text) => searchFilter(text)}
-                value={search}
+                onChangeText={onChangeSearchText}
+                value={searchText}
                 round='true'
                 containerStyle={{ backgroundColor: 'white', padding: 5 }}
                 inputContainerStyle={{ backgroundColor: 'white' }}
@@ -88,7 +86,7 @@ const MoviesList = ({ navigation }) => {
                         <View style={styles.button}>
                             <Button title="Voir plus"
                                 buttonStyle={styles.buttonStyle}
-                                onPress={() => navigation.navigate("Détails", moviesList[item.id])} />
+                                onPress={() => navigation.navigate("Détails", moviesListConst[item.id])} />
                         </View>
                         <Card.Divider />
                         <Text style={styles.title}>Date de sortie : </Text>
@@ -125,7 +123,6 @@ const styles = StyleSheet.create({
     },
     button: {
         padding: 2,
-        width: '40 %',
     },
     buttonIMDb: {
         padding: 2,
