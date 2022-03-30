@@ -1,6 +1,6 @@
-# MovieRating
+![MovieRating](img/movierating.jpg)
 > Vincent RODRIGUEZ
-## MovieRating version 2 en React Native :
+## Movie Rating version 2 en React Native :
 
 **Fonctionnement :**
 
